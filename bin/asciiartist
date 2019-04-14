@@ -1,0 +1,6 @@
+
+#!/usr/bin/env ruby
+
+require '../lib/asciiartist'
+
+asciiartist::CLI.new.welcome

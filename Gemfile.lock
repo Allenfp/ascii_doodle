@@ -1,0 +1,17 @@
+PATH
+  remote: .
+  specs:
+    asciiartist (0.0.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  asciiartist!
+
+BUNDLED WITH
+   2.0.1
