@@ -1,7 +1,7 @@
 class AsciiArtist::CLI
 
     def welcome()
-        puts '
+        puts "\n\n\n\n\n\n\n\n\n\n\n\n
         
         Welcome to...
 
@@ -30,41 +30,48 @@ class AsciiArtist::CLI
                           
          
                 ... A CLI web scraping project that reads from www.asciiart.eu !!
-        '
+                \n\nFor the best results, maximize your terminal window.
+        "
         sleep 2
         start
     end
 
     def start
 
-        #Select a top level category.
-        doc = fetch_page('https://www.asciiart.eu/')
+        #Scrape and serve top level categories.
+        level_1_category_choice_url = get_categories('https://www.asciiart.eu/')
+
+        #Scrape and serve sub-level categories.
+        level_2_category_choice_url = get_categories(level_1_category_choice_url)
+
+        #Create art objects.
+        art_doc = fetch_page(level_2_category_choice_url)
+        parse_art(art_doc)
+        show_art
+
+        #Clear Objects and Restart
+        clear_art
+        start
+
+    end
+
+    def get_categories(url)
+        doc = fetch_page(url)
         categories = parse_categories(doc)
         print_and_select_categories(categories)
         puts "Please select a category by number:"
         category_selection = gets.to_i
-
-        #Select a subcategory.
-        sub_doc = fetch_page(categories[category_selection][:url])
-        subcategories = parse_categories(sub_doc)
-        print_and_select_categories(subcategories)
-        puts "Please select a subcategory by number:"
-        subcategory_selection = gets.strip.to_i
-
-        #Create art objects.
-        art_doc = fetch_page(subcategories[subcategory_selection][:url])
-        parse_art(art_doc)
-        binding.pry
-
+        sub_doc = categories[category_selection][:url]
+        sub_doc
     end
 
     def print_and_select_categories(categories)
         puts "Please select a category."
-        puts "|--------------------------------------------------|"
+        puts "|==================================================|"
         categories.each.with_index { |cat, index| 
             puts "\t#{index}) \t" + cat[:title]
         }
-        puts "|--------------------------------------------------|"
+        puts "|==================================================|"
     end
 
     def parse_art(art_doc)
@@ -76,6 +83,10 @@ class AsciiArtist::CLI
         
     def create_art(art, index)
         AsciiArtist::Art.new(art, index)
+    end
+
+    def clear_art
+        AsciiArtist::Art.clear
     end
 
     def parse_categories(doc)
@@ -93,6 +104,27 @@ class AsciiArtist::CLI
         categories
     end
 
+    def show_art
+
+        puts "Press Enter Key to cycle through gallery, or type 'quit' to return to main menu. "
+
+        AsciiArtist::Art.all.each { |x|
+        
+            action = gets.chomp
+
+            if action == "quit" 
+                break
+            else
+                puts "|--                                                              --|\n\n"
+                puts x.art_text
+                puts "\n\n|--                                                              --|"
+            end
+
+        }
+
+        puts "End of gallery, returning to main menu."
+        sleep 2
+    end
 
     def fetch_page(url)
         AsciiArtist::Scraper.new.get_categories(url)
