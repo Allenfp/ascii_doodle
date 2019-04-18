@@ -3,7 +3,7 @@
 ###This Ruby Gem is a CLI that scrapes and serves Ascii Art from www.AsciiArt.eu. Use this application as a fun terminal based way of browsing Ascii Art pieces, or even sprucing up your source code.
 
 Not sure what Ascii Art is? Here is an example: 
-
+```
       ,'``.._   ,'``.
      :,--._:)\,:,._,.:       All Glory to
      :`--,''   :`...';\      the HYPNO TOAD!
@@ -23,7 +23,7 @@ Not sure what Ascii Art is? Here is an example:
     `-. `.`.``-----``--,  .'
       |/`.\`'        ,','); SSt
           `         (/  (/
-
+```
 ## Installation
 
     $ gem install asciiartist
