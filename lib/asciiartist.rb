@@ -1,4 +1,4 @@
 module AsciiArtist
 end
 
-require_relative '/Users/allenpartlow/Dropbox/asciiartist/config/environment.rb'
+require_relative './config/environment.rb'
